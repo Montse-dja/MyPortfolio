@@ -140,6 +140,14 @@
     background-color: #d7d7b0;
   }
 
+@keyframes blinkText {
+  0%, 100% { color: white; }
+  50% { color: yellow; }
+}
+
+#menuOptions button:first-child {
+  animation: blinkText 0.5s infinite;
+}
 </style>
 
 <header class="site-header">
