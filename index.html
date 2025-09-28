@@ -149,6 +149,12 @@
   padding: 2px;
   animation: blinkText 1s infinite;
 }
+  #contentText {
+  font-size: 16px;
+}
+  #menuPopup {
+  height: 600px;
+}
 </style>
 
 <header class="site-header">
@@ -230,9 +236,10 @@
     menuTitle.textContent = type;
 
     if(type === 'Skills') {
-      contentText.innerHTML = `
+  contentText.innerHTML = `
+    <div style="display:flex; gap:40px; flex-wrap:wrap;">
+      <div style="flex:1; min-width:200px;">
         <h2 style="font-family: 'Tiny5', sans-serif;">Hard Skills</h2>
-        <p style="font-size: 16px;">
         <ul>
           <li>Electronics Design</li>
           <li>Embedded Systems</li>
@@ -244,9 +251,22 @@
           <li>Cyber-physical Systems</li>
           <li>Solidworks (CAD)</li>
           <li>Office Package</li>
-          <li>Altium DesignerBasic</li>
-        </ul> </p>`;
-    } else if(type === 'Projects') {
+          <li>Altium Designer Basic</li>
+        </ul>
+      </div>
+
+      <div style="flex:1; min-width:200px;">
+        <h2 style="font-family: 'Tiny5', sans-serif;">Soft Skills</h2>
+        <ul>
+          <li>Leadership</li>
+          <li>Problem Solving</li>
+          <li>Time Management</li>
+          <li>Team Collaboration</li>
+          <li>Adaptability</li>
+        </ul>
+      </div>
+    </div>`;
+  } else if(type === 'Projects') {
       contentText.innerHTML = `
         <ul>
           <li>Smart Home Automation</li>
