@@ -17,7 +17,6 @@
     flex-wrap: wrap;
     justify-content: center;
     font-family: 'Oswald', sans-serif;
-
   }
 
   .site-header {
@@ -163,6 +162,19 @@
   color: inherit;                  /* choose a color */
   margin-right: 0.4em;          /* space between > and text */
 }
+
+#menuContent a.submenu-link {
+  display: block;
+  font-family: 'Tiny5', sans-serif;
+  font-size: 16px;
+  padding: 4px 0;         /* small padding for a lighter look */
+  color: rgb(60,37,68);
+  text-decoration: none;
+  border: none;
+}
+#menuContent a.submenu-link:hover {
+  text-decoration: underline;
+}
   
 </style>
 
@@ -294,21 +306,35 @@
       </div>
     </div>`;
   } else if(type === 'Projects') {
-      contentText.innerHTML = `
-        <ul>
-          <li>Design and implementation of voice detection algorithms</li>
-          <li>Bidirectional EV Charger Design and Optimization</li>
-          <li>Design of a thermal chamber temperature control system</li>
-          <li>Design and Implementation of a Regulated AC to DC Power Supply</li>
-          <li>Smart-grid autonomous warehouse with intelligent charging system <em>(current)</em> </li>
-        </ul>`;
-    } else if(type === 'Experience') {
+  contentText.innerHTML = `
+    <h2 style="font-family:'Tiny5',sans-serif;">Projects</h2>
+    <a href="#" class="submenu-link" onclick="showContent('VoiceDetection')">> Design and implementation of voice detection algorithms</a>
+    <a href="#" class="submenu-link" onclick="showContent('EVCharger')">> Bidirectional EV Charger Design and Optimization</a>
+    <a href="#" class="submenu-link" onclick="showContent('ThermalControl')">> Design of a thermal chamber temperature control system</a>
+    <a href="#" class="submenu-link" onclick="showContent('PowerSupply')">> Design and Implementation of a Regulated AC to DC Power Supply</a>
+    <a href="#" class="submenu-link" onclick="showContent('SmartGrid')">> Smart-grid autonomous warehouse with intelligent charging system <em>(current)</em></a>
+  `;
+  } else if(type === 'Experience') {
       contentText.innerHTML = `
         <ul>
           <li>Solutions Architect Internship at Toshiba Global Commerce Solutions</li>
           <li>Designer at Nice Shirt Thanks!</li>
         </ul>`;
-    }
+  } else if(type === 'VoiceDetection') {
+    contentText.innerHTML = `<p>Details about the voice detection algorithm project…</p>`;
+  }
+  else if(type === 'EVCharger') {
+    contentText.innerHTML = `<p>Details about the bidirectional EV charger design…</p>`;
+  }
+  else if(type === 'ThermalControl') {
+    contentText.innerHTML = `<p>Details about the thermal chamber temperature control system…</p>`;
+  }
+  else if(type === 'PowerSupply') {
+    contentText.innerHTML = `<p>Details about the regulated AC to DC power supply…</p>`;
+  }
+  else if(type === 'SmartGrid') {
+    contentText.innerHTML = `<p>Details about the smart-grid autonomous warehouse project…</p>`;
+  }
   }
 
   function goBack() {
