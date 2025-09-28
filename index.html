@@ -14,6 +14,9 @@
     background-color: rgb(60, 37, 68);
     padding-top: 60px;
     display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 
   .site-header {
     position: fixed;        
@@ -30,7 +33,6 @@
     z-index: 1000;
   }
 
-  }
   .popup {
     border: 3px solid #ffffff;
     background: #ffffff;
@@ -81,7 +83,6 @@
     gap: 20px;               
   }
 
-
   .popup-body.about p {
     margin: 0;             
     line-height: 1.4;
@@ -105,8 +106,39 @@
     color: inherit;
     text-decoration: none;
   }
-</style>
 
+  /* Style for start-up menu buttons */
+  #menuOptions button {
+    width: 150px;
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    border: 2px solid #ffffff;
+    background-color: #2a5cff;
+    color: white;
+    font-family: 'Oswald', sans-serif;
+  }
+
+  #menuOptions button:hover {
+    background-color: #1a40cc;
+  }
+
+  #menuContent button {
+    background-color: #ffffff;
+    color: rgb(60,37,68);
+    border: 2px solid rgb(60,37,68);
+    padding: 4px 12px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 16px;
+  }
+
+  #menuContent button:hover {
+    background-color: #d7d7b0;
+  }
+
+</style>
 
 <header class="site-header">
   <h1>Montserrat Djaddah</h1>
@@ -114,52 +146,117 @@
   
 <body>
 
-  <div class="popup" style="width:80%";>
-  <div class="popup-header">
-    <span>ABOUT ME</span>
-    <button class="close-btn">X</button>
-  </div>
+  <!-- About Me Popup -->
+  <div class="popup" style="width:80%">
+    <div class="popup-header">
+      <span>ABOUT ME</span>
+      <button class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">X</button>
+    </div>
   
-  <div class="popup-body about">
-  <img src="Images/Black and White Minimalist Music Studio Logo.png" alt="Headshot" width="22%">
-  <p>
-    Hi! I'm Montserrat Djaddah! <br> <br>
-    I am a 21 year old Electronics Engineering student, with an ongoing specialization in Cyber-physical systems. I am currently in my 7th semester, set to graduate in June 2026. <br> <br>
-    I have strong leadership skills, fast problem-solving abilities, academic perseverance, self-management and artistic curiosity. I love learning and growing skills that help me become an all-around engineer. <br>
-    I am seeking to gain experience in my field. My interests include technology development, circuit design, embedded systems and closed-loop control.
-  </p>
-</div>
+    <div class="popup-body about">
+      <img src="Images/Black and White Minimalist Music Studio Logo.png" alt="Headshot" width="22%">
+      <p>
+        Hi! I'm Montserrat Djaddah! <br><br>
+        I am a 21 year old Electronics Engineering student, with an ongoing specialization in Cyber-physical systems. I am currently in my 7th semester, set to graduate in June 2026. <br><br>
+        I have strong leadership skills, fast problem-solving abilities, academic perseverance, self-management and artistic curiosity. I love learning and growing skills that help me become an all-around engineer. <br>
+        I am seeking to gain experience in my field. My interests include technology development, circuit design, embedded systems and closed-loop control.
+      </p>
+    </div>
     
-  <div class="popup-actions">
-    <button>Contact Me</button>
+    <div class="popup-actions">
+      <button>Contact Me</button>
+    </div>
   </div>
-</div>
 
-
-   <div class="popup" style="width:13%">
-  <div class="popup-header">
-    <span>CONTACT INFO</span>
-    <button class="close-btn">X</button>
+  <!-- Contact Info Popup -->
+  <div class="popup" style="width:13%">
+    <div class="popup-header">
+      <span>CONTACT INFO</span>
+      <button class="close-btn" onclick="this.parentElement.parentElement.style.display='none'">X</button>
+    </div>
+  
+    <div class="popup-body about">
+      <p>
+        <a href="www.linkedin.com/in/montserrat-djaddah-meillon-606a11259">LinkedIn</a> <br><br>
+        <a href="mailto:montse.djaddah@gmail.com">E-Mail</a> <br><br>
+        <a href="https://github.com/Montse-dja/MyPortfolio">Github</a> <br><br>
+      </p>
+    </div>
   </div>
-  
-  <div class="popup-body about">
-  <p>
-    <a href="www.linkedin.com/in/montserrat-djaddah-meillon-606a11259">LinkedIn</a> <br> <br>
-    <a href="mailto:montse.djaddah@gmail.com">E-Mail</a> <br> <br>
-    <a href="https://github.com/Montse-dja/MyPortfolio">Github</a> <br> <br>
-    
-  </p>
-</div>
-    
 
-</div>
-  
+  <!-- Start-Up Menu Popup -->
+  <div class="popup" id="menuPopup" style="width:50%">
+    <div class="popup-header">
+      <span id="menuTitle">Start-Up Menu</span>
+      <button class="close-btn" onclick="closePopup('menuPopup')">X</button>
+    </div>
 
+    <div class="popup-body" id="menuBody" style="background-color:#2a5cff; color:white; font-size:20px; text-align:center; padding:30px;">
+      <div id="menuOptions">
+        <button onclick="showContent('Skills')">Skills</button> <br>
+        <button onclick="showContent('Projects')">Projects</button> <br>
+        <button onclick="showContent('Experience')">Experience</button>
+      </div>
 
-  <nav>
-  <a href="skills.html">Skills</a> |
-  <a href="projects/">Projects</a> |
-  <a href="experience.html">Experience</a>
-</nav>
+      <div id="menuContent" style="display:none; text-align:left;">
+        <button onclick="goBack()" style="float:right; margin-bottom:10px;">&lt; Back</button>
+        <div id="contentText">
+          <!-- Dynamic content will appear here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  function showContent(type) {
+    const menuOptions = document.getElementById('menuOptions');
+    const menuContent = document.getElementById('menuContent');
+    const contentText = document.getElementById('contentText');
+    const menuTitle = document.getElementById('menuTitle');
+
+    menuOptions.style.display = 'none';
+    menuContent.style.display = 'block';
+    menuTitle.textContent = type;
+
+    if(type === 'Skills') {
+      contentText.innerHTML = `
+        <ul>
+          <li>Electronics Design</li>
+          <li>Embedded Systems</li>
+          <li>Control Systems</li>
+          <li>Cyber-physical Systems</li>
+        </ul>`;
+    } else if(type === 'Projects') {
+      contentText.innerHTML = `
+        <ul>
+          <li>Smart Home Automation</li>
+          <li>Robotics Project</li>
+          <li>IoT Temperature Controller</li>
+        </ul>`;
+    } else if(type === 'Experience') {
+      contentText.innerHTML = `
+        <ul>
+          <li>Internship at XYZ Tech</li>
+          <li>Lab Assistant at University</li>
+          <li>Freelance Circuit Design</li>
+        </ul>`;
+    }
+  }
+
+  function goBack() {
+    const menuOptions = document.getElementById('menuOptions');
+    const menuContent = document.getElementById('menuContent');
+    const menuTitle = document.getElementById('menuTitle');
+
+    menuContent.style.display = 'none';
+    menuOptions.style.display = 'block';
+    menuTitle.textContent = 'Start-Up Menu';
+  }
+
+  function closePopup(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+</script>
+
 </body>
 </html>
