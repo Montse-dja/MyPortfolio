@@ -152,6 +152,18 @@
   #contentText {
   font-size: 16px;
 }
+  
+#contentText ul {
+  list-style-type: none;        /* remove default bullet */
+  padding-left: 1.2em;          /* space for the new symbol */
+}
+
+#contentText ul li::before {
+  content: ">";                 /* new bullet character */
+  color: inherit;                  /* choose a color */
+  margin-right: 0.4em;          /* space between > and text */
+}
+  
 </style>
 
 <header class="site-header">
