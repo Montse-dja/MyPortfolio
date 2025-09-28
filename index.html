@@ -165,7 +165,7 @@
 
 #menuContent a.submenu-link {
   display: block;
-  font-family: 'Tiny5', sans-serif;
+  font-family: 'Oswald', sans-serif
   font-size: 16px;
   padding: 4px 0;         
   color: inherit;
@@ -305,7 +305,7 @@
   } else if(type === 'Projects') {
   contentText.innerHTML = `
     <h2 style="font-family:'Tiny5',sans-serif;">Projects</h2>
-    <a href="#" class="submenu-link" onclick="showContent('VoiceDetection')">> Design and implementation of voice detection algorithms</a>
+    <a href="#" class="submenu-link" onclick="showContent('VoiceDetection')">> Design and implementation of a voice detection algorithm</a>
     <a href="#" class="submenu-link" onclick="showContent('EVCharger')">> Bidirectional EV Charger Design and Optimization</a>
     <a href="#" class="submenu-link" onclick="showContent('ThermalControl')">> Design of a thermal chamber temperature control system</a>
     <a href="#" class="submenu-link" onclick="showContent('PowerSupply')">> Design and Implementation of a Regulated AC to DC Power Supply</a>
@@ -318,7 +318,14 @@
           <li>Designer at Nice Shirt Thanks!</li>
         </ul>`;
   } else if(type === 'VoiceDetection') {
-    contentText.innerHTML = `<p>Details about the voice detection algorithm project…</p>`;
+    contentText.innerHTML = `<h2 style="font-family:'Tiny5',sans-serif;">Design and implementation of a voice detection algorithm</h2>
+        <p>Using programming knowledge and digital signal processing, the development and implementation of a Voice Activity Detection (VAD) 
+        system on a Raspberry Pi 4, with coding on both Python and C, was implemented. The goal was to optimize real-time voice detection on 
+        resource-constrained devices, improving accuracy in noisy environments while minimizing computational load. A Python (Tkinter) 
+        graphical user interface was designed to visualize system status, and extensive testing was conducted using audio databases (LibriSpeech and ESC-50), 
+        various noise levels, and G.711 and G.723.1 codecs. <br>
+        This project combined digital signal processing, software development, validation testing, and embedded hardware deployment to deliver 
+        a scalable solution for voice-machine interaction applications.</p>`;
   }
   else if(type === 'EVCharger') {
     contentText.innerHTML = `<p>Details about the bidirectional EV charger design…</p>`;
