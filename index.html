@@ -48,6 +48,18 @@
     text-align: right;
     margin: 10px;
   }
+  
+  .popup-body.about {
+    display: flex;           /* puts image + text side by side */
+    align-items: flex-start;  /* top-aligns them */
+    gap: 20px;                /* space between */
+  }
+
+
+  .popup-body.about p {
+    margin: 0;                /* remove default paragraph margin */
+    line-height: 1.4;
+  }
 
   .popup-actions button {
     background: #f3f3ce;
@@ -74,13 +86,16 @@
     <button class="close-btn">X</button>
   </div>
   
-  <div class="popup-body">
-    <div style="display:inline-block"> <img src="Images/Black and White Minimalist Music Studio Logo.png" alt="Headshot" width="20%" style="display: inline-block"></div>
-    Hi! I'm Montserrat Djaddah! <br> 
+  <div class="popup-body about">
+  <img src="Images/Black and White Minimalist Music Studio Logo.png" alt="Headshot" width="20%">
+  <p>
+    Hi! I'm Montserrat Djaddah! <br>
     I am a 21 year old Electronics Engineering student, with an ongoing specialization in Cyber-physical systems. I am currently in my 7th semester, set to graduate in June 2026. <br>
-    I have strong leadership skills, fast problem-solving abilities, academic perseverance, self-management and artistic curiosity. Ilove learning and grwoing skills that help me become an all-around engineer. <br>
-    I am seeking to gain experience in my field. My interests include technology development, circuit design, embedded systems and closed-loop control. 
-  </div>
+    I have strong leadership skills, fast problem-solving abilities, academic perseverance, self-management and artistic curiosity. I love learning and growing skills that help me become an all-around engineer. <br>
+    I am seeking to gain experience in my field. My interests include technology development, circuit design, embedded systems and closed-loop control.
+  </p>
+</div>
+    
   <div class="popup-actions">
     <button>Contact Me</button>
   </div>
