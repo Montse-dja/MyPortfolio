@@ -1,8 +1,5 @@
-pyaudio
+streamlit
+streamlit-webrtc
 numpy
-pydub
-webrtcvad
-soundfile
 pillow
-opencv-python==4.5.5.64
-matplotlib
+av
