@@ -5,72 +5,73 @@ Make sure to install the requirements:
     pip install streamlit webrtcvad pyaudio numpy pillow matplotlib
 """
 
+import os
+import av
 import numpy as np
-import webrtcvad
-import pyaudio
 from PIL import Image
 import streamlit as st
-import time
-import os
+from streamlit_webrtc import webrtc_streamer, AudioProcessorBase, WebRtcMode
 
-# -----------------------------------------------------
-# Settings
-# -----------------------------------------------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-IMG_TALKING = os.path.join(BASE_DIR, "Talking.jpg")
-IMG_NOTTALKING = os.path.join(BASE_DIR, "NotTalking.jpg")
-
-RATE = 16000          # 16 kHz sample rate
-FRAME_DURATION = 30   # ms
-FRAME_SIZE = int(RATE * FRAME_DURATION / 1000)
-CHANNELS = 1
-FORMAT = pyaudio.paInt16
-
-# -----------------------------------------------------
-# Streamlit Layout
-# -----------------------------------------------------
+# -------------------------------------------------------
+# Page Setup
+# -------------------------------------------------------
 st.set_page_config(page_title="Live Voice Activity Detection", layout="centered")
-st.title("🎙️ Real-Time Speech Detection")
+st.title("🎙️ Real-Time Speech Detection (Browser)")
 
-# Image placeholders
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+talking_img = Image.open(os.path.join(BASE_DIR, "Talking.jpg"))
+not_talking_img = Image.open(os.path.join(BASE_DIR, "NotTalking.jpg"))
+
 img_placeholder = st.empty()
-status_placeholder = st.empty()
-plot_placeholder = st.empty()
+text_placeholder = st.empty()
 
-# Load images once
-talking_img = Image.open(IMG_TALKING)
-not_talking_img = Image.open(IMG_NOTTALKING)
+# -------------------------------------------------------
+# Audio Processor
+# -------------------------------------------------------
+class VADProcessor(AudioProcessorBase):
+    def __init__(self) -> None:
+        self.energy = 0.0
+        self.is_speech = False
+        self.threshold = 0.015  # tweak this if too sensitive/insensitive
 
-# -----------------------------------------------------
-# WebRTC VAD + PyAudio Setup
-# -----------------------------------------------------
-vad = webrtcvad.Vad(3)
-pa = pyaudio.PyAudio()
-stream = pa.open(format=FORMAT,
-                 channels=CHANNELS,
-                 rate=RATE,
-                 input=True,
-                 frames_per_buffer=FRAME_SIZE)
+    def recv_audio_frame(self, frame: av.AudioFrame) -> av.AudioFrame:
+        # Convert to mono float32 numpy array
+        audio = frame.to_ndarray().astype(np.float32).mean(axis=0)
+        # Compute root-mean-square energy
+        rms = np.sqrt(np.mean(np.square(audio)))
+        self.energy = rms
+        self.is_speech = rms > self.threshold
+        return frame  # pass through unchanged
 
-st.info("Click the **Stop** button in the top-right of the page to end the demo.")
+# -------------------------------------------------------
+# WebRTC Streamer
+# -------------------------------------------------------
+webrtc_ctx = webrtc_streamer(
+    key="vad-demo",
+    mode=WebRtcMode.SENDRECV,
+    audio_receiver_size=256,  # small buffer for low latency
+    media_stream_constraints={"audio": True, "video": False},
+    async_processing=True,
+    audio_processor_factory=VADProcessor,
+)
 
-# -----------------------------------------------------
-# Main Loop
-# -----------------------------------------------------
-while True:
-    data = stream.read(FRAME_SIZE, exception_on_overflow=False)
-    samples = np.frombuffer(data, dtype=np.int16)
-    is_speech = vad.is_speech(data, RATE)
-
-    # Update UI
-    img_placeholder.image(talking_img if is_speech else not_talking_img,
-                          use_container_width=True)
-    status_placeholder.markdown(
-        f"<h3 style='text-align:center; color:black;'>"
-        f"{'Speech Detected!' if is_speech else 'No Speech Detected'}"
-        f"</h3>", unsafe_allow_html=True)
-
-    # Simple amplitude plot (tiny waveform)
-    plot_placeholder.line_chart(samples)
-
-    time.sleep(0.05)  # 50 ms update
+# -------------------------------------------------------
+# UI Update Loop
+# -------------------------------------------------------
+if webrtc_ctx and webrtc_ctx.audio_processor:
+    processor: VADProcessor = webrtc_ctx.audio_processor
+    st.info("Give microphone permission when asked.")
+    while True:
+        if processor.is_speech:
+            img_placeholder.image(talking_img, use_container_width=True)
+            text_placeholder.markdown(
+                "<h3 style='text-align:center;color:black;'>Speech Detected!</h3>",
+                unsafe_allow_html=True,
+            )
+        else:
+            img_placeholder.image(not_talking_img, use_container_width=True)
+            text_placeholder.markdown(
+                "<h3 style='text-align:center;color:black;'>No Speech Detected</h3>",
+                unsafe_allow_html=True,
+            )
+        st.sleep(0.1)
