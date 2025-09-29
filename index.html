@@ -148,6 +148,7 @@
   padding: 2px;
   animation: blinkText 1s infinite;
 }
+
   #contentText {
   font-size: 16px;
 }
@@ -315,7 +316,7 @@
     <a href="#" class="submenu-link" onclick="showContent('SmartGrid')">> Smart-grid autonomous warehouse with intelligent charging system <em>(current)</em></a>
   <br>
   <br>
-  <h1 style="font-family: 'Tiny5', sans-serif; font-size:16px;">Select one to continue</h1>`;
+  <h1 style="font-family: 'Tiny5', sans-serif; font-size:16px;" id="menuOptions">select one to continue</h1>`;
   } else if(type === 'Experience') {
       contentText.innerHTML = `
         <ul>
