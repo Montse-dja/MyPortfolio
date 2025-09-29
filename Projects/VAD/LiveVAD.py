@@ -9,106 +9,83 @@ Requirements:
     pyaudio
     numpy
     pydub
-    webrtcvad
+
     soundfile
     pillow
     opencv-python==4.5.5.64
     matplotlib
     tk   # usually comes with Python on Windows/Mac
 """
+"""
 
 import os
-import tkinter as tk
-import threading
+import av
 import numpy as np
-import webrtcvad
-import pyaudio
-from PIL import Image, ImageTk
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from PIL import Image
+import streamlit as st
+from streamlit_webrtc import webrtc_streamer, AudioProcessorBase, WebRtcMode
 
-# ---- Paths ----
+# -------------------------------------------------------
+# Page Setup
+# -------------------------------------------------------
+st.set_page_config(page_title="Live Voice Activity Detection", layout="centered")
+st.title("🎙️ Real-Time Speech Detection (Browser)")
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-IMG_DIR = os.path.join(BASE_DIR, "Projects", "VAD")
+talking_img = Image.open(os.path.join(BASE_DIR, "Talking.jpg"))
+not_talking_img = Image.open(os.path.join(BASE_DIR, "NotTalking.jpg"))
 
-# ---- Tkinter Main Window ----
-root = tk.Tk()
-root.title("Real-Time Speech Detection")
-root.geometry("870x600")
+img_placeholder = st.empty()
+text_placeholder = st.empty()
 
-def load_image(file_name):
-    return Image.open(os.path.join(IMG_DIR, file_name))
+# -------------------------------------------------------
+# Audio Processor
+# -------------------------------------------------------
+class VADProcessor(AudioProcessorBase):
+    def __init__(self) -> None:
+        self.energy = 0.0
+        self.is_speech = False
+        self.threshold = 0.015  # tweak this if too sensitive/insensitive
 
-# Load and resize images
-bg_speech = load_image("Talking.png").resize((870, 600))
-bg_no_speech = load_image("NotTalking.png").resize((870, 600))
+    def recv_audio_frame(self, frame: av.AudioFrame) -> av.AudioFrame:
+        # Convert to mono float32 numpy array
+        audio = frame.to_ndarray().astype(np.float32).mean(axis=0)
+        # Compute root-mean-square energy
+        rms = np.sqrt(np.mean(np.square(audio)))
+        self.energy = rms
+        self.is_speech = rms > self.threshold
+        return frame  # pass through unchanged
 
-bg_speech_tk = ImageTk.PhotoImage(bg_speech)
-bg_no_speech_tk = ImageTk.PhotoImage(bg_no_speech)
+# -------------------------------------------------------
+# WebRTC Streamer
+# -------------------------------------------------------
+webrtc_ctx = webrtc_streamer(
+    key="vad-demo",
+    mode=WebRtcMode.SENDRECV,
+    audio_receiver_size=256,  # small buffer for low latency
+    media_stream_constraints={"audio": True, "video": False},
+    async_processing=True,
+    audio_processor_factory=VADProcessor,
+)
 
-video_label = tk.Label(root, image=bg_no_speech_tk)
-video_label.place(x=0, y=0, relwidth=1, relheight=1)
-video_label.image = bg_no_speech_tk  # Keep reference
-
-# Graph area
-fig, ax = plt.subplots(figsize=(3, 1.2), facecolor="white")
-canvas_plot = FigureCanvasTkAgg(fig, master=root)
-canvas_plot.get_tk_widget().place(x=280, y=392)
-
-label = tk.Label(root, text="No speech detected",
-                 font=("Montserrat", 16), fg="black", bg="white")
-label.place(x=350, y=375)
-
-# ---- Audio / VAD Setup ----
-vad = webrtcvad.Vad(3)  # 0–3 (3 = most aggressive)
-
-FORMAT = pyaudio.paInt16
-CHANNELS = 1
-RATE = 16000
-FRAME_DURATION = 30  # ms
-FRAME_SIZE = int(RATE * FRAME_DURATION / 1000)
-
-audio = pyaudio.PyAudio()
-stream = audio.open(format=FORMAT, channels=CHANNELS,
-                    rate=RATE, input=True,
-                    frames_per_buffer=FRAME_SIZE)
-
-frame_counter = 0
-frame_update_interval = 4
-
-def update_background(is_speech):
-    current_bg = bg_speech_tk if is_speech else bg_no_speech_tk
-    video_label.config(image=current_bg)
-    video_label.image = current_bg
-
-def update_signal_plot(audio_samples):
-    ax.clear()
-    ax.plot(audio_samples, color="black", linewidth=1)
-    ax.set_facecolor("white")
-    for spine in ax.spines.values():
-        spine.set_color("white")
-    ax.set_xticks([])
-    ax.set_yticks([])
-    canvas_plot.draw()
-
-def update_ui(is_speech, audio_samples):
-    update_background(is_speech)
-    label.config(text="Speech Detected!" if is_speech else "No Speech Detected", fg="black")
-    update_signal_plot(audio_samples)
-
-def process_audio():
-    global frame_counter
+# -------------------------------------------------------
+# UI Update Loop
+# -------------------------------------------------------
+if webrtc_ctx and webrtc_ctx.audio_processor:
+    processor: VADProcessor = webrtc_ctx.audio_processor
+    st.info("Give microphone permission when asked.")
     while True:
-        data = stream.read(FRAME_SIZE, exception_on_overflow=False)
-        audio_samples = np.frombuffer(data, dtype=np.int16)
-        is_speech = vad.is_speech(data, RATE)
-
-        frame_counter += 1
-        if frame_counter >= frame_update_interval:
-            frame_counter = 0
-            root.after(0, update_ui, is_speech, audio_samples)
-
-threading.Thread(target=process_audio, daemon=True).start()
-update_background(False)
-root.mainloop()
+        if processor.is_speech:
+            img_placeholder.image(talking_img, use_container_width=True)
+            text_placeholder.markdown(
+                "<h3 style='text-align:center;color:black;'>Speech Detected!</h3>",
+                unsafe_allow_html=True,
+            )
+        else:
+            img_placeholder.image(not_talking_img, use_container_width=True)
+            text_placeholder.markdown(
+                "<h3 style='text-align:center;color:black;'>No Speech Detected</h3>",
+                unsafe_allow_html=True,
+            )
+        st.sleep(0.1)
 
