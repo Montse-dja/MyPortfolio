@@ -176,6 +176,22 @@
 .blinking {
   animation: blinkText 1s infinite;
 }
+
+.submenu-button {
+  background: none;
+  border: none;
+  color: #00cfff;          /* match your link color */
+  font: inherit;           /* use the same font as surrounding text */
+  text-align: left;
+  padding: 4px 0;
+  cursor: pointer;
+  display: block;          /* stack vertically */
+}
+
+.submenu-button:hover {
+  color: #2a5cff;          /* hover color similar to links */
+  text-decoration: underline;
+}
   
 </style>
 
@@ -312,12 +328,12 @@
   } else if(type === 'Projects') {
   contentText.innerHTML = `
     <h2 style="font-family:'Tiny5',sans-serif;">Projects</h2>
-    <a href="#" class="submenu-link" onclick="showContent('VoiceDetection')">> Design and implementation of a voice detection algorithm</a>
-    <a href="#" class="submenu-link" onclick="showContent('EVCharger')">> Bidirectional EV Charger Design and Optimization</a>
-    <a href="#" class="submenu-link" onclick="showContent('ThermalControl')">> Design of a thermal chamber temperature control system</a>
-    <a href="#" class="submenu-link" onclick="showContent('PowerSupply')">> Design and Implementation of a Regulated AC to DC Power Supply</a>
-    <a href="#" class="submenu-link" onclick="showContent('SmartGrid')">> Smart-grid autonomous warehouse with intelligent charging system <em>(current)</em></a>
-  <br>
+      <button class="submenu-button" onclick="showContent('VoiceDetection')"> > Design and implementation of a voice detection algorithm</button>
+      <button class="submenu-button" onclick="showContent('EVCharger')"> > Bidirectional EV Charger Design and Optimization</button>
+      <button class="submenu-button" onclick="showContent('ThermalControl')"> > Design of a thermal chamber temperature control system </button>
+      <button class="submenu-button" onclick="showContent('PowerSupply')"> >Design and Implementation of a Regulated AC to DC Power Supply </button>
+      <button class="submenu-button" onclick="showContent('SmartGrid')"> > Smart-grid autonomous warehouse with intelligent charging system<em>(current project)</em></button>
+    <br>
   <br>
   <h1 class="blinking" style="font-family: 'Tiny5', sans-serif; font-size:16px;">select one to continue</h1>`;
   } else if(type === 'Experience') {
