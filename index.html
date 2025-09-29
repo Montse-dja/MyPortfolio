@@ -336,7 +336,14 @@
         ;
   }
   else if(type === 'EVCharger') {
-    contentText.innerHTML = `<p>Details about the bidirectional EV charger design…</p>`;
+    contentText.innerHTML = `<h2 style="font-family:'Tiny5',sans-serif;">Bidirectional Electric Vehicle Charger Design and Optimization</h2>
+    <p>Though MATLAB/Simulink simulations, a design was optimized for a bidirectional battery charger meant for electric vehicles. 
+    In this project, I worked with a team of classmates and we were given the task of optimizing electric circuit components as well 
+    as keeping in mind the state of the electric grid the charger may be part of. This was done via a bidirectional energy flow using 
+    a buck-boost converter with a semi-automated response to the grid's needs.<br>
+    Additionally, an inductor for the converter was calculated, designed in specialized software and simulated in a controlled environment.<br>
+    Finally, the project concluded with working with the charged in both directions taking data from a complete battery charge/recharge dataset
+    as a real-life possible input.</p>`;
   }
   else if(type === 'ThermalControl') {
     contentText.innerHTML = `<p>Details about the thermal chamber temperature control system…</p>`;
