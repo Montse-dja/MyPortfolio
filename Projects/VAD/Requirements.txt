@@ -1,0 +1,8 @@
+pyaudio
+numpy
+pydub
+webrtcvad
+soundfile
+pillow
+opencv-python==4.5.5.64
+matplotlib
