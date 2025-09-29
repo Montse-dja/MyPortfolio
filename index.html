@@ -504,7 +504,7 @@
   } else if(type === 'VAD Demo') {
     contentText.innerHTML = `
     <h2 style="font-family:'Tiny5',sans-serif;">Projects</h2>
-    <py-script> 
+    <script type="py"> 
       import os
         import tkinter as tk
         import threading
@@ -598,10 +598,7 @@
         
         threading.Thread(target=process_audio, daemon=True).start()
         update_background(False)
-        root.mainloop()
-            </py-script>
-    
-    `;
+        root.mainloop() </script>`;
   }}
 
   function goBack() {
