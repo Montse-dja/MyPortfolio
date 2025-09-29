@@ -40,8 +40,8 @@ def load_image(file_name):
     return Image.open(os.path.join(IMG_DIR, file_name))
 
 # Load and resize images
-bg_speech = load_image("Talking.jpg").resize((870, 600))
-bg_no_speech = load_image("NotTalking.jpg").resize((870, 600))
+bg_speech = load_image("Talking.png").resize((870, 600))
+bg_no_speech = load_image("NotTalking.png").resize((870, 600))
 
 bg_speech_tk = ImageTk.PhotoImage(bg_speech)
 bg_no_speech_tk = ImageTk.PhotoImage(bg_no_speech)
