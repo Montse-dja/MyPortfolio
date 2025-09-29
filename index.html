@@ -361,10 +361,28 @@
     </p>`;
   }
   else if(type === 'ThermalControl') {
-    contentText.innerHTML = `<p>Details about the thermal chamber temperature control system…</p>`;
+    contentText.innerHTML = `<h2 style="font-family:'Tiny5',sans-serif;">Design of a thermal chamber temperature control system</h2>
+    <p>DDesign and implementation of a temperature control system for a thermal chamber, aimed at evaluating motor performance under 
+    varying temperature conditions and ensuring reliability. An ATmega16 microcontroller was used for signal processing and execution 
+    of a PI controller discretized using the Tustin method, alongside a zero-cross detection system and PWM generation to drive a TRIAC
+    regulating power delivery.<br>
+    The system included signal conditioning circuits, power electronics components, and mathematical modeling for precise control. 
+    This project combined microcontroller programming, control theory, electronics design, and simulations in Proteus and LTSpice, 
+    achieving a scalable and practical solution for both industrial and household applications.</p>
+    <br>
+    <span style="font-family:'Tiny5',sans-serif;">Skills:</span> microcontrollers, ATMEGA 16, Proteus, embedded systems, PCB design, LTSpice, PI control, power electronics, prototype development, live signal processing, DAC
+    <br>
+    <div style="text-align:center; padding-top: 10px;">
+       <img src="Projects/EVCharge/Res1.png" width="25%" style="display:inline-block; vertical-align:middle;">
+       <img src="Projects/EVCharge/Res2.png" width="25%" style="display:inline-block; vertical-align:middle;">
+       <img src="Projects/EVCharge/Inductor.jpeg" width="20%" style="display:inline-block; vertical-align:middle;">
+       <img src="Projects/EVCharge/BuckBoost.jpeg" width="25%" style="display:inline-block; vertical-align:middle;">
+    </div>
+    `;
   }
   else if(type === 'PowerSupply') {
-    contentText.innerHTML = `<p>Details about the regulated AC to DC power supply…</p>`;
+    contentText.innerHTML = `<h2 style="font-family:'Tiny5',sans-serif;">Design and implementation of a voice detection algorithm</h2>
+    <p>Details about the regulated AC to DC power supply…</p>`;
   }
   else if(type === 'SmartGrid') {
     contentText.innerHTML = `<p>Details about the smart-grid autonomous warehouse project…</p>`;
