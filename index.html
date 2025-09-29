@@ -92,6 +92,7 @@
   .popup-actions button {
     background: #ffffff;
     color: rgb(60, 37, 68);
+    border: 2px solid rgb(60, 37, 68);
     padding: 4px 12px;
     cursor: pointer;
     font-family: 'Oswald', sans-serif
@@ -192,6 +193,25 @@
 
 .submenu-button:hover {
   background-color: pink;  /* darker blue on hover */
+}
+
+#menuContent .project-button {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 10px;
+  background-color: #2a5cff;   /* bright blue */
+  color: #fff;
+  font-family: 'Tiny5', sans-serif;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+#menuContent .project-button:hover {
+  background-color: #1a40cc;   /* darker blue on hover */
 }
   
 </style>
@@ -329,13 +349,13 @@
   } else if(type === 'Projects') {
   contentText.innerHTML = `
     <h2 style="font-family:'Tiny5',sans-serif;">Projects</h2>
-    <div id="menuOptions">
-      <button onclick="showContent('VoiceDetection')"> > Design and implementation of a voice detection algorithm</button>
-      <button onclick="showContent('EVCharger')"> > Bidirectional EV Charger Design and Optimization</button>
-      <button onclick="showContent('ThermalControl')"> > Design of a thermal chamber temperature control system </button>
-      <button onclick="showContent('PowerSupply')"> >Design and Implementation of a Regulated AC to DC Power Supply </button>
-      <button onclick="showContent('SmartGrid')"> > Smart-grid autonomous warehouse with intelligent charging system<em>(current project)</em></button>
-    </div><br>
+
+    <button class="project-button" onclick="showContent('VoiceDetection')"> > Design and implementation of a voice detection algorithm</button>
+    <button class="project-button" onclick="showContent('EVCharger')"> > Bidirectional EV Charger Design and Optimization</button>
+    <button class="project-button" onclick="showContent('ThermalControl')"> > Design of a thermal chamber temperature control system </button>
+    <button class="project-button" onclick="showContent('PowerSupply')"> >Design and Implementation of a Regulated AC to DC Power Supply </button>
+    <button class="project-button" onclick="showContent('SmartGrid')"> > Smart-grid autonomous warehouse with intelligent charging system<em>(current project)</em></button>
+    <br>
   <br>
   <h1 class="blinking" style="font-family: 'Tiny5', sans-serif; font-size:16px;">select one to continue</h1>`;
   } else if(type === 'Experience') {
