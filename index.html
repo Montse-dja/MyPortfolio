@@ -279,7 +279,7 @@
         <h1 style="font-family: 'Tiny5', sans-serif;">START</h1>
         <button onclick="showContent('Skills')" > >Skills</button> <br>
         <button onclick="showContent('Projects')" > >Projects</button> <br>
-        <button onclick="showContent('Experience')" > >Experience</button>
+        <button onclick="showContent('Experience')" > >Experience</button> <br>
       </div>
 
       <div id="menuContent" style="display:none; text-align:left;">
@@ -355,9 +355,11 @@
           <li>Critical Thinking</li>
           <li>Teamworking</li>
           <li>Flexibility</li>
-          <li>Decision making</li>
-          <li>Multi-tasking</li>
-          <li>Fast learner</li>
+          <li>Decision Making</li>
+          <li>Multi-Tasking</li>
+          <li>Fast Learning</li>
+          <li>Proactive</li>
+          <li>Self-Improving</li>
         </ul>
       </div>
     </div>`;
@@ -369,6 +371,7 @@
     <button class="project-button" onclick="showContent('EVCharger')"> > Bidirectional EV Charger Design and Optimization</button>
     <button class="project-button" onclick="showContent('ThermalControl')"> > Design of a thermal chamber temperature control system </button>
     <button class="project-button" onclick="showContent('PowerSupply')"> >Design and Implementation of a Regulated AC to DC Power Supply </button>
+    <button class="project-button" onclick="showContent('GitHub')"> >Portfolio webpage development using GitHub </button>
     <button class="project-button" onclick="showContent('SmartGrid')"> > Smart-grid autonomous warehouse with intelligent charging system<em>(current project)</em></button>
     <br>
   <br>
@@ -497,6 +500,19 @@
        <img src="Projects/AGV/Plat.png" width="35%" style="display:inline-block; vertical-align:middle;">
     </div>`;
     
+  }
+    else if(type === 'GitHub') {
+    contentText.innerHTML = `<h2 style="font-family:'Tiny5',sans-serif;">Portfolio webpage development using GitHub</h2>
+    <p>Using HTML, CSS and JavaScript knowledge, I decided to challenge myself to develop a simple and basic webpage that showed all my projects in greater detail.
+    I wanted to do a webpage --and not soley social media like Linkedin-- because it allowed me to have a creative approach to my presentation. 
+    I love expressing myself via visually appealing content, as I find presentation to be just as important as content. 
+    
+    <br>The project was very challenging for me as I only got a basic HTML formal course at school and decided to learn hwo to do it by myself. 
+    I am completely aware that my webpage could use some more optimization and a better assests, which is why I am working on learning.</p>
+    <br>
+    <span style="font-family:'Tiny5',sans-serif;">Skills:</span> HTML, CSS, JavaScript, Procreate (design software), illustration, GitHub, web development
+    <br> <br>
+    `;
   }
   }
 
